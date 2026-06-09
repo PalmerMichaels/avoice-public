@@ -1,7 +1,7 @@
 {
   "name": "avoice",
   "version": "1.0.0",
-  "description": "Synthetic voice-of-customer signal triage CLI.",
+  "description": "Clean-room synthetic architecture workflow CLI.",
   "type": "module",
   "bin": {
     "avoice": "dist/src/index.js"
@@ -17,7 +17,8 @@
     "typescript",
     "cli",
     "synthetic-data",
-    "voice-of-customer"
+    "architecture-workflow",
+    "workspace-planning"
   ],
   "license": "MIT",
   "devDependencies": {

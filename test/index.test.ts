@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { seedFeedback, triageSignal } from "../src/index.js";
+import { renderArchitectureWorkflowReport, seedProjects } from "../src/index.js";
 
-test("access-control language routes to security review", () => {
-  const accessSignal = seedFeedback.find((signal) => signal.id === "VOC-005");
-  assert.ok(accessSignal);
+test("CLI report shows onboarding, workflow screens, tasks, and mocked integrations", () => {
+  const report = renderArchitectureWorkflowReport();
 
-  const result = triageSignal(accessSignal);
-  assert.equal(result.topic, "access_control");
-  assert.equal(result.owner, "Security Review");
-  assert.ok(result.reasons.includes("access-control concern"));
+  assert.match(report, /Onboarding: 80%/);
+  assert.match(report, /Document workflow screens:/);
+  assert.match(report, /Role\/task\/status flow:/);
+  assert.match(report, /Mock BIM Issue Board/);
+  assert.equal(seedProjects.every((project) => !project.client.includes("Avoice")), true);
 });

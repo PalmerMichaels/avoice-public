@@ -1,31 +1,27 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { seedFeedback } from "../src/seed.js";
-import { triageSignal, triageSignals } from "../src/triage.js";
+import { seedProjects } from "../src/seed.js";
+import { buildWorkspaceSummaries, buildWorkspaceSummary } from "../src/triage.js";
 
-test("triage assigns critical urgency to blocked billing workflow", () => {
-  const result = triageSignal(seedFeedback[0]);
+test("workspace summary captures onboarding and document screens", () => {
+  const result = buildWorkspaceSummary(seedProjects[0]);
 
-  assert.equal(result.topic, "billing");
-  assert.equal(result.owner, "Support");
-  assert.equal(result.urgency, "critical");
-  assert.ok(result.urgencyScore >= 80);
+  assert.equal(result.projectId, "AV-101");
+  assert.equal(result.onboardingPercent, 80);
+  assert.ok(result.documentScreens.some((screen) => screen.lane === "client_review"));
+  assert.ok(result.nextActions.some((action) => action.includes("Unblock task")));
 });
 
-test("triage prioritizes enterprise performance risk above low-friction requests", () => {
-  const results = triageSignals(seedFeedback);
+test("summaries sort least-ready architecture workspace first", () => {
+  const results = buildWorkspaceSummaries(seedProjects);
 
-  assert.equal(results[0].id, "VOC-003");
-  assert.equal(results[0].urgency, "critical");
-  assert.equal(results.at(-1)?.topic, "feature_request");
+  assert.equal(results[0].projectId, "AV-101");
+  assert.ok(results[0].readinessScore < results[1].readinessScore);
 });
 
-test("access-control language routes to security review", () => {
-  const accessSignal = seedFeedback.find((signal) => signal.id === "VOC-005");
-  assert.ok(accessSignal);
+test("mocked integrations needing attention become next actions", () => {
+  const result = buildWorkspaceSummary(seedProjects[0]);
 
-  const result = triageSignal(accessSignal);
-  assert.equal(result.topic, "access_control");
-  assert.equal(result.owner, "Security Review");
-  assert.ok(result.reasons.includes("access-control concern"));
+  assert.ok(result.integrationHealth.some((integration) => integration.needsAttention));
+  assert.ok(result.nextActions.some((action) => action.includes("Mock Document Vault")));
 });
