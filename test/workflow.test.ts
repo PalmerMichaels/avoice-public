@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { seedProjects } from "../src/seed.js";
-import { buildWorkspaceSummaries, buildWorkspaceSummary } from "../src/triage.js";
+import { buildWorkspaceSummaries, buildWorkspaceSummary } from "../src/workflow.js";
 
 test("workspace summary captures onboarding and document screens", () => {
   const result = buildWorkspaceSummary(seedProjects[0]);

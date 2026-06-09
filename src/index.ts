@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { seedProjects } from "./seed.js";
-import { buildWorkspaceSummaries } from "./triage.js";
+import { buildWorkspaceSummaries } from "./workflow.js";
 
 export { seedProjects } from "./seed.js";
 export type { ArchitectureDocument, ArchitectureProject, MockIntegration, Role, TeamMember, WorkflowTask } from "./seed.js";
-export { buildWorkspaceSummaries, buildWorkspaceSummary } from "./triage.js";
-export type { DocumentScreen, IntegrationHealth, TaskFlowItem, WorkflowLane, WorkspaceSummary } from "./triage.js";
+export { buildWorkspaceSummaries, buildWorkspaceSummary } from "./workflow.js";
+export type { DocumentScreen, IntegrationHealth, TaskFlowItem, WorkflowLane, WorkspaceSummary } from "./workflow.js";
 
 export const CLI_DISCLAIMER =
   "Clean-room synthetic architecture workflow demo: not affiliated with any real company, accelerator, or YC; not architecture, engineering, legal, permitting, safety, or professional advice.";
@@ -50,8 +50,6 @@ export function renderArchitectureWorkflowReport(): string {
 
   return lines.join("\n");
 }
-
-export const renderTriageReport = renderArchitectureWorkflowReport;
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(renderArchitectureWorkflowReport());
