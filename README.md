@@ -1,50 +1,59 @@
 # avoice
 
-`avoice` is a clean-room TypeScript CLI that routes a synthetic voice-support queue to synthetic agents. It is intended as a small public demo/tool for deterministic queue-priority experiments.
-
-## Requirements
-
-- Node.js 22 or newer
-- No runtime npm dependencies
-
-## Usage
-
-Run the CLI:
-
-```sh
-npm start
-```
-
-Run tests:
-
-```sh
-npm test
-```
-
-Run validation checks:
-
-```sh
-npm run validate
-```
-
-## What It Does
-
-- Scores synthetic callers by wait time, account tier, and sentiment.
-- Assigns callers to synthetic agents with matching skills and remaining capacity.
-- Prints a deterministic routing summary for local inspection.
-
-## Synthetic Data Statement
-
-All queue entries, caller names, agent names, skills, tiers, and routing examples are synthetic seed data created for this repository. They do not represent real callers, customers, agents, companies, or operational data.
+`avoice` is a lightweight TypeScript CLI that triages synthetic voice-of-customer call and chat feedback. It scores fictional feedback by urgency, identifies a topic, and suggests a follow-up owner.
 
 ## Clean-Room Disclaimer
 
-This implementation is original clean-room code. It does not use proprietary materials, private product behavior, confidential datasets, or non-public implementation details from any company or project.
+This is an original clean-room public demo. It is not affiliated with any real company, accelerator, or YC. All feedback entries are synthetic and fictional.
 
-## Non-Regulated Disclaimer
+Do not use this tool for regulated, production, legal, medical, financial, safety-critical, or employment decisions. The scoring rules are simple deterministic heuristics intended for local demonstration only.
 
-This tool is a local demonstration utility only. It does not provide medical, legal, financial, emergency, telecommunications compliance, staffing, labor, or other regulated advice.
+## What It Does
 
-## No-Affiliation Statement
+- Reads local synthetic seed feedback from `src/seed.ts`.
+- Scores each signal from 0 to 100 based on urgency cues, recency, segment, and channel.
+- Assigns a topic such as `billing`, `performance`, `onboarding`, `feature_request`, or `access_control`.
+- Suggests a follow-up owner such as `Support`, `Engineering`, `Product`, `Customer Success`, or `Security Review`.
+- Prints a clean-room and non-regulated-use disclaimer in CLI output.
 
-This repository is not affiliated with, endorsed by, sponsored by, or officially connected to any company, product, accelerator, or organization with a similar name.
+## Requirements
+
+- Node.js 20 or newer recommended.
+- npm.
+
+## Run Locally
+
+```bash
+npm install
+npm start
+```
+
+## Scripts
+
+```bash
+npm run build
+npm test
+npm run validate
+```
+
+## Example Output
+
+```text
+avoice synthetic VOC triage
+Clean-room synthetic demo: not affiliated with any real company, accelerator, or YC; not for regulated or production decisions.
+
+VOC-003 | CRITICAL 100/100 | performance | owner: Engineering
+Customer: Cedar Fleet Labs (enterprise, call, 12m ago)
+Signal: Latency spikes keep interrupting dispatch reviews...
+Reasons: business workflow at risk, time-sensitive language, live call escalation, enterprise segment impact, fresh signal
+```
+
+## Validation
+
+The test suite uses TypeScript compilation plus Node's built-in test runner:
+
+```bash
+npm test
+```
+
+No credentials, external APIs, scraped data, or network services are required.

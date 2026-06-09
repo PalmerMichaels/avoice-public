@@ -1,16 +1,27 @@
 {
   "name": "avoice",
-  "version": "0.1.0",
-  "description": "Clean-room TypeScript CLI for synthetic voice queue routing experiments.",
+  "version": "1.0.0",
+  "description": "Synthetic voice-of-customer signal triage CLI.",
   "type": "module",
-  "private": true,
+  "bin": {
+    "avoice": "dist/src/index.js"
+  },
   "scripts": {
-    "start": "node src/cli.ts",
-    "test": "node --test tests/*.test.ts",
-    "validate": "node scripts/validate.ts"
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/src/index.js",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "validate": "npm test && node dist/src/index.js"
   },
-  "engines": {
-    "node": ">=22"
-  },
-  "devDependencies": {}
+  "keywords": [
+    "clean-room",
+    "typescript",
+    "cli",
+    "synthetic-data",
+    "voice-of-customer"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.4"
+  }
 }
